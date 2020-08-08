@@ -207,7 +207,8 @@ class FormBuilderPhoneFieldState extends State<FormBuilderPhoneField> {
             errorText: field.errorText,
             // prefixIcon: widget.decoration.prefixIcon == null ? _textFieldPrefix(field) : widget.decoration.prefixIcon,
             // prefix: widget.decoration.prefixIcon != null ? _textFieldPrefix(field) : null,
-            prefix: _textFieldPrefix(field),
+            prefixIcon: _textFieldPrefix(field),
+               prefixIconConstraints: BoxConstraints(minWidth: 0, minHeight: 0),
           ),
           // initialValue: "${_initialValue ?? ''}",
           onChanged: (val) {
