@@ -1,8 +1,14 @@
+## [3.14.0-alpha.3] - 22-Aug-2020
+* Include changes made in v3.13.4
+
 ## [3.13.4] - 27-Aug-2020
 * Fixed bug where `CountryPicker.onSaved` breaks if value is null
 * Fixed bug where `initialValue` not saved
 * Fix for label overflows in `RadioGroup` & `CheckboxGroup`
 * Upgrade to latest `flutter_chips_input`. Fixes bugs in Flutter pre-release channels
+
+## [3.14.0-alpha.2] - 22-Aug-2020
+* Include changes made in v3.13.3
 
 ## [3.13.3] - 22-Aug-2020
 * Fix bug where CountryPicker still works in readOnly. Closes #413
@@ -10,6 +16,9 @@
 * Allow null initialValue for CountryPicker. Closes #421
 * Minor improvements for ImagePicker on web platform. Closes #414
 * Added video tutorial reference to README
+
+## [3.14.0-alpha.1] - 11-Aug-2020
+* Fixed `RangeSemanticFormatterCallback` error. Changed field with `SemanticFormatterCallback`.
 
 ## [3.13.2] - 11-Aug-2020
 * Added `defaultImage` attribute to `FormBuilderImagePicker`, acts as placeholder. Courtesy [luwenbin8023](https://github.com/luwenbin8023)
