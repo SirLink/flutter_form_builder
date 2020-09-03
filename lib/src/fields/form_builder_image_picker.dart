@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -39,7 +41,7 @@ class FormBuilderImagePicker extends StatefulWidget {
   final CameraDevice preferredCameraDevice;
 
   final int maxImages;
-
+  final ImageProvider defaultImage;
   final Widget cameraIcon;
   final Widget galleryIcon;
   final Widget cameraLabel;
@@ -50,6 +52,7 @@ class FormBuilderImagePicker extends StatefulWidget {
     Key key,
     @required this.attribute,
     this.initialValue,
+    this.defaultImage,
     this.validators = const [],
     this.valueTransformer,
     this.labelText,
@@ -157,11 +160,18 @@ class _FormBuilderImagePickerState extends State<FormBuilderImagePicker> {
                             width: widget.imageWidth,
                             height: widget.imageHeight,
                             margin: widget.imageMargin,
+                            /*child: kIsWeb
+                                ? Image.memory(item, fit: BoxFit.cover)
+                                : item is String
+                                    ? Image.network(item, fit: BoxFit.cover)
+                                    : Image.file(item, fit: BoxFit.cover),*/
                             child: kIsWeb
                                 ? Image.memory(item, fit: BoxFit.cover)
                                 : item is String
                                     ? Image.network(item, fit: BoxFit.cover)
-                                    : Image.file(item, fit: BoxFit.cover),
+                                    : item is File
+                                        ? Image.file(item, fit: BoxFit.cover)
+                                        : item,
                           ),
                           if (!_readOnly)
                             InkWell(
@@ -190,17 +200,26 @@ class _FormBuilderImagePickerState extends State<FormBuilderImagePicker> {
                     }).toList()),
                     if (!_readOnly && !_hasMaxImages)
                       GestureDetector(
-                        child: Container(
-                            width: widget.imageWidth,
-                            height: widget.imageHeight,
-                            child: Icon(Icons.camera_enhance,
-                                color: _readOnly
-                                    ? theme.disabledColor
-                                    : widget.iconColor ?? theme.primaryColor),
-                            color: (_readOnly
-                                    ? theme.disabledColor
-                                    : widget.iconColor ?? theme.primaryColor)
-                                .withAlpha(50)),
+                        child: widget.defaultImage != null
+                            ? Image(
+                                width: widget.imageWidth,
+                                height: widget.imageHeight,
+                                image: widget.defaultImage,
+                              )
+                            : Container(
+                                width: widget.imageWidth,
+                                height: widget.imageHeight,
+                                child: Icon(Icons.camera_enhance,
+                                    color: _readOnly
+                                        ? theme.disabledColor
+                                        : widget.iconColor ??
+                                            theme.primaryColor),
+                                color: (_readOnly
+                                        ? theme.disabledColor
+                                        : widget.iconColor ??
+                                            theme.primaryColor)
+                                    .withAlpha(50),
+                              ),
                         onTap: () {
                           showModalBottomSheet(
                             context: context,

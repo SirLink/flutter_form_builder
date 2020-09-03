@@ -18,9 +18,7 @@ class MyApp extends StatelessWidget {
         // brightness: Brightness.dark,
         inputDecorationTheme: const InputDecorationTheme(
           // labelStyle: TextStyle(color: Colors.purple),
-          border: OutlineInputBorder(
-            gapPadding: 10,
-          ),
+          border: OutlineInputBorder(gapPadding: 10),
         ),
       ),
       home: MyHomePage(),
@@ -63,15 +61,15 @@ class MyHomePageState extends State<MyHomePage> {
               // autovalidate: true,
               initialValue: {
                 'movie_rating': 3,
+                'filter_chip': ['Test', 'Test 1'],
+                'date': DateTime.now(),
               },
               readOnly: false,
               child: Column(
                 children: <Widget>[
                   FormBuilderFilterChip(
                     attribute: 'filter_chip',
-                    decoration: const InputDecoration(
-                      labelText: 'Select many options',
-                    ),
+                    decoration: const InputDecoration(labelText: 'Filter Chip'),
                     options: [
                       FormBuilderFieldOption(
                           value: 'Test', child: Text('Test')),
@@ -170,7 +168,7 @@ class MyHomePageState extends State<MyHomePage> {
                   FormBuilderDateTimePicker(
                     attribute: 'date',
                     onChanged: _onChanged,
-                    inputType: InputType.time,
+                    inputType: InputType.both,
                     decoration: const InputDecoration(
                       labelText: 'Appointment Time',
                     ),
@@ -370,12 +368,20 @@ class MyHomePageState extends State<MyHomePage> {
                   ),
                   SizedBox(height: 15),
                   FormBuilderRadioGroup(
+                    orientation: GroupedRadioOrientation.wrap,
                     decoration:
                         InputDecoration(labelText: 'My chosen language'),
                     attribute: 'best_language',
                     onChanged: _onChanged,
                     validators: [FormBuilderValidators.required()],
-                    options: ['Dart', 'Kotlin', 'Java', 'Swift', 'Objective-C']
+                    options: [
+                      'Dart',
+                      'Kotlin',
+                      'Java',
+                      'Swift',
+                      'Objective-C',
+                      'A Very long text that would overflow to the next line and crash'
+                    ]
                         .map((lang) => FormBuilderFieldOption(
                               value: lang,
                               child: Text('$lang'),
@@ -452,6 +458,8 @@ class MyHomePageState extends State<MyHomePage> {
                     decoration: const InputDecoration(
                       labelText: 'Images',
                     ),
+                    defaultImage: NetworkImage(
+                        'https://cohenwoodworking.com/wp-content/uploads/2016/09/image-placeholder-500x500.jpg'),
                     maxImages: 3,
                     iconColor: Colors.red,
                     // readOnly: true,
@@ -468,14 +476,11 @@ class MyHomePageState extends State<MyHomePage> {
                   ),
                   SizedBox(height: 15),
                   FormBuilderCountryPicker(
-                    initialValue: 'Germany',
+                    // initialValue: 'Germany',
                     attribute: 'country',
-                    cursorColor: Colors.black,
+                    // readOnly: true,
                     // style: TextStyle(color: Colors.black, fontSize: 18),
                     priorityListByIsoCode: ['US'],
-                    valueTransformer: (value) {
-                      return value.isoCode;
-                    },
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: 'Country',
@@ -488,7 +493,7 @@ class MyHomePageState extends State<MyHomePage> {
                   SizedBox(height: 15),
                   FormBuilderPhoneField(
                     attribute: 'phone_number',
-                    initialValue: '+254',
+                    initialValue: '+25443534543567',
                     // defaultSelectedCountryIsoCode: 'KE',
                     cursorColor: Colors.black,
                     // style: TextStyle(color: Colors.black, fontSize: 18),
@@ -499,10 +504,8 @@ class MyHomePageState extends State<MyHomePage> {
                     onChanged: _onChanged,
                     priorityListByIsoCode: ['US'],
                     validators: [
-                      FormBuilderValidators.numeric(
-                          errorText: 'Invalid phone number'),
                       FormBuilderValidators.required(
-                          errorText: 'This field reqired')
+                          errorText: 'This field required')
                     ],
                   ),
                   SizedBox(height: 15),
@@ -584,17 +587,16 @@ class MyHomePageState extends State<MyHomePage> {
                 ),
                 SizedBox(width: 20),
                 Expanded(
-                  child: MaterialButton(
-                    color: Theme.of(context).accentColor,
-                    child: Text(
-                      'Reset',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    onPressed: () {
-                      _fbKey.currentState.reset();
-                    },
+                    child: MaterialButton(
+                  color: Theme.of(context).accentColor,
+                  child: Text(
+                    'Reset',
+                    style: TextStyle(color: Colors.white),
                   ),
-                ),
+                  onPressed: () {
+                    _fbKey.currentState.reset();
+                  },
+                )),
               ],
             ),
           ],
